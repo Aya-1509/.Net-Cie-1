@@ -1,0 +1,65 @@
+@model IEnumerable<CollegeFestMVC.Models.Participant>
+@using CollegeFestMVC.Extensions
+
+@{
+    ViewData["Title"] = "Registered Participants";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>AMTICS Tech Fest Registrations</h2>
+    <div>
+        <a asp-controller="Fest" asp-action="Welcome" class="btn btn-outline-secondary me-2">Welcome Page</a>
+        <a asp-controller="Fest" asp-action="Register" class="btn btn-success">+ Register New</a>
+    </div>
+</div>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-striped table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>Participant ID</th>
+                <th>Participant Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Event</th>
+                <th>Registration Status</th>
+                <th>Registration Fee</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var fee = item.EventName.GetEventFee();
+                var status = item.GetRegistrationStatus();
+                var category = fee.GetFeeCategory();
+                <tr>
+                    <td>@item.ParticipantId</td>
+                    <td><strong>@item.ParticipantName</strong></td>
+                    <td>@item.Email</td>
+                    <td>@item.Department</td>
+                    <td>@item.Year</td>
+                    <td>
+                        @item.EventName
+                        @if (item.IsTeamEvent)
+                        {
+                            <span class="badge bg-info text-dark">Team</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="badge @(status == "Confirmed" ? "bg-success" : "bg-warning text-dark")">
+                            @status
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">@category (₹@fee)</span>
+                    </td>
+                    <td>
+                        <a asp-controller="Fest" asp-action="Details" asp-route-id="@item.ParticipantId" class="btn btn-sm btn-primary">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

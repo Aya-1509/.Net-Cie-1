@@ -1,0 +1,69 @@
+@model CollegeFestMVC.Models.Participant
+@using CollegeFestMVC.Extensions
+
+@{
+    ViewData["Title"] = "Participant Details";
+    var status = Model.GetRegistrationStatus();
+    var fee = Model.EventName.GetEventFee();
+    var feeCategory = fee.GetFeeCategory();
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        @if (status == "Confirmed")
+        {
+            <div class="alert alert-success shadow-sm mb-4" role="alert">
+                <h4 class="alert-heading">Registration Confirmed!</h4>
+                <p class="mb-0">Welcome, <strong>@Model.ParticipantName</strong>! You are registered for <strong>@Model.EventName</strong>.</p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning shadow-sm mb-4" role="alert">
+                <h4 class="alert-heading">Registration Pending</h4>
+                <p class="mb-0">Welcome, <strong>@Model.ParticipantName</strong>! You are registered for <strong>@Model.EventName</strong>, but your status is pending.</p>
+            </div>
+        }
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Participant Details</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Participant ID</dt>
+                    <dd class="col-sm-8">@Model.ParticipantId</dd>
+
+                    <dt class="col-sm-4">Participant Name</dt>
+                    <dd class="col-sm-8">@Model.ParticipantName</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+
+                    <dt class="col-sm-4">Department</dt>
+                    <dd class="col-sm-8">@Model.Department</dd>
+
+                    <dt class="col-sm-4">Year</dt>
+                    <dd class="col-sm-8">@Model.Year</dd>
+
+                    <dt class="col-sm-4">Event Name</dt>
+                    <dd class="col-sm-8">@Model.EventName (@(Model.IsTeamEvent ? "Team Event" : "Individual Event"))</dd>
+
+                    <dt class="col-sm-4">Registration Fee</dt>
+                    <dd class="col-sm-8"><span class="badge bg-secondary">@feeCategory (₹@fee)</span></dd>
+
+                    <dt class="col-sm-4">Registration Status</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @(status == "Confirmed" ? "bg-success" : "bg-warning text-dark")">
+                            @status
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer bg-light text-end">
+                <a asp-controller="Fest" asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

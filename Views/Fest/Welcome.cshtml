@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3 text-center shadow-sm">
+    <div class="container-fluid py-5">
+        <h1 class="display-4 fw-bold text-primary">Welcome to AMTICS Technical Fest</h1>
+        <p class="fs-4 text-muted mt-3">Innovate, Compete, and Showcase Your Technical Skills!</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a asp-controller="Fest" asp-action="Index" class="btn btn-outline-primary btn-lg">View Participants</a>
+            <a asp-controller="Fest" asp-action="Register" class="btn btn-primary btn-lg">Register Now</a>
+        </div>
+    </div>
+</div>
